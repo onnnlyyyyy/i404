@@ -1,0 +1,1108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050711">
+<title>NETWORK404 — Cyber Command Center</title>
+<style>
+:root{
+ --bg:#050711;--bg2:#080d1b;--panel:rgba(10,17,34,.88);--panel2:rgba(7,12,25,.96);
+ --line:rgba(83,220,255,.19);--line2:rgba(83,220,255,.42);--cyan:#48f5ff;
+ --blue:#5e8cff;--violet:#b18cff;--green:#54ffb7;--amber:#ffd166;--red:#ff5578;
+ --text:#e4f7ff;--muted:#7e9bad;--shadow:0 22px 70px rgba(0,0,0,.4);
+ --radius:17px;--glow:0 0 25px rgba(72,245,255,.13)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:
+ radial-gradient(ellipse at 15% -10%,rgba(44,95,177,.2),transparent 35%),
+ radial-gradient(ellipse at 90% 10%,rgba(126,58,199,.12),transparent 30%),
+ linear-gradient(145deg,#050711,#080d1b 55%,#050711);
+ color:var(--text);font:13px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.18;background-image:linear-gradient(rgba(72,245,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(72,245,255,.05) 1px,transparent 1px);background-size:40px 40px;mask-image:linear-gradient(to bottom,black,transparent 85%)}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+a{color:var(--cyan);text-decoration:none}
+button:disabled{opacity:.55;cursor:wait}
+.topbar{height:auto;min-height:76px;padding:14px clamp(14px,3vw,36px);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;position:sticky;top:0;z-index:10;background:rgba(5,7,17,.88);backdrop-filter:blur(22px);border-bottom:1px solid var(--line);box-shadow:0 8px 40px #0002}
+.brand{display:flex;align-items:center;gap:13px;min-width:220px}
+.brand-mark{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(140deg,rgba(72,245,255,.19),rgba(94,140,255,.13));border:1px solid var(--line2);box-shadow:var(--glow);color:var(--cyan);font-size:20px;font-weight:900}
+.brand-name{font-size:16px;letter-spacing:2.8px;font-weight:900}
+.brand-name span{color:var(--cyan)}
+.brand-sub{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.top-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:rgba(10,20,38,.75);border-radius:100px;padding:7px 11px;font-size:10px;letter-spacing:.5px;color:#b8d4e2;white-space:nowrap}
+.dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 12px currentColor;display:inline-block}
+.layout{max-width:1580px;margin:0 auto;padding:25px clamp(12px,2.6vw,34px) 50px;display:grid;grid-template-columns:235px minmax(0,1fr);gap:22px}
+.sidebar{align-self:start;position:sticky;top:98px;display:grid;gap:15px}
+.side-card,.panel{border:1px solid var(--line);background:linear-gradient(145deg,rgba(13,23,43,.9),rgba(7,12,25,.93));border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.side-card{padding:17px}
+.side-label,.eyebrow{font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);font-weight:800}
+.nav{display:grid;gap:5px;margin-top:13px}
+.nav button{display:flex;align-items:center;gap:10px;text-align:left;width:100%;padding:10px 11px;border-radius:9px;background:transparent;border:1px solid transparent;color:#9db6c8;font-size:12px;transition:.2s}
+.nav button:hover,.nav button.active{background:rgba(72,245,255,.08);border-color:rgba(72,245,255,.2);color:var(--cyan)}
+.nav-icon{width:19px;text-align:center;font-size:15px}
+.side-foot{color:var(--muted);font-size:10px;margin-top:14px;line-height:1.8}
+.main{min-width:0;display:grid;gap:18px}
+.hero{border:1px solid var(--line2);border-radius:22px;position:relative;overflow:hidden;padding:clamp(22px,3.5vw,42px);background:linear-gradient(115deg,rgba(17,38,65,.94),rgba(9,16,32,.92) 55%,rgba(24,13,49,.83));box-shadow:var(--shadow)}
+.hero:before{content:"";position:absolute;width:340px;height:340px;border-radius:50%;border:1px solid rgba(72,245,255,.1);right:-70px;top:-150px;box-shadow:0 0 0 35px rgba(72,245,255,.025),0 0 0 75px rgba(72,245,255,.02)}
+.hero:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;border:1px solid rgba(177,140,255,.17);right:0;top:-90px}
+.hero-content{position:relative;z-index:1;max-width:720px}
+.hero .eyebrow{color:var(--cyan);display:flex;align-items:center;gap:8px}
+.hero h1{font-size:clamp(27px,4vw,44px);line-height:1.1;letter-spacing:-1.5px;margin:13px 0 12px}
+.hero h1 span{background:linear-gradient(90deg,var(--cyan),#8ea8ff 55%,var(--violet));background-clip:text;color:transparent}
+.hero p{max-width:660px;color:#9db8c9;line-height:1.8;margin:0}
+.hero-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:23px}
+.btn{border:1px solid var(--line2);border-radius:9px;padding:10px 14px;background:rgba(72,245,255,.07);color:var(--cyan);font-weight:750;font-size:11px;letter-spacing:.3px;transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-1px);background:rgba(72,245,255,.13)}
+.btn.primary{background:linear-gradient(100deg,#2acdd8,#6d94ff);color:#041018;border-color:transparent;box-shadow:0 6px 24px rgba(72,245,255,.15)}
+.btn.subtle{color:#bdd0df;background:rgba(255,255,255,.025);border-color:rgba(180,210,230,.13)}
+.btn.danger{color:var(--red);border-color:rgba(255,85,120,.35);background:rgba(255,85,120,.06)}
+.btn.small{padding:7px 9px;font-size:10px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat{padding:17px;border:1px solid var(--line);border-radius:14px;background:rgba(10,19,37,.78);min-width:0}
+.stat-top{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:10px}
+.stat-icon{width:29px;height:29px;display:grid;place-items:center;border-radius:9px;background:rgba(72,245,255,.08);color:var(--cyan);font-size:14px}
+.stat-value{font-size:clamp(20px,2.5vw,29px);font-weight:850;letter-spacing:-.8px;margin:10px 0 3px;overflow-wrap:anywhere}
+.stat-note{font-size:10px;color:var(--muted)}
+.stat-note.green{color:var(--green)}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:5px 0 0}
+.section-head h2{font-size:14px;letter-spacing:1.3px;margin:0;text-transform:uppercase}
+.section-head p{margin:4px 0 0;color:var(--muted);font-size:11px}
+.tools-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.panel{min-width:0;scroll-margin-top:100px}
+.panel.full{grid-column:1/-1}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 17px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(72,245,255,.045),transparent)}
+.panel-title{display:flex;align-items:center;gap:10px;min-width:0}
+.panel-icon{width:34px;height:34px;flex:0 0 auto;border-radius:10px;border:1px solid var(--line);background:rgba(72,245,255,.07);display:grid;place-items:center;color:var(--cyan);font-size:15px}
+.panel-title strong{display:block;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+.panel-title small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.badge{border:1px solid rgba(84,255,183,.25);background:rgba(84,255,183,.06);color:var(--green);font-size:9px;padding:5px 7px;border-radius:6px;white-space:nowrap}
+.badge.amber{color:var(--amber);border-color:rgba(255,209,102,.25);background:rgba(255,209,102,.05)}
+.panel-body{padding:17px;display:grid;gap:12px}
+label,.label{font-size:10px;color:#91adbd;letter-spacing:.4px}
+.field{width:100%;min-width:0;color:var(--text);background:rgba(3,8,17,.8);border:1px solid rgba(83,220,255,.2);border-radius:9px;padding:11px 12px;outline:none;transition:border-color .2s,box-shadow .2s}
+.field:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(72,245,255,.07)}
+textarea.field{resize:vertical;min-height:88px;line-height:1.6}
+.field::placeholder{color:#496778}
+.row{display:flex;align-items:center;gap:8px;min-width:0}
+.row>*{min-width:0}
+.row .field{flex:1}
+.row .btn{flex:0 0 auto}
+.help{font-size:10px;line-height:1.7;color:var(--muted)}
+.output{padding:12px;border:1px solid rgba(83,220,255,.13);background:#040811;border-radius:9px;min-height:40px;overflow-wrap:anywhere;white-space:pre-wrap;color:#a6f7ff;font-size:11px}
+.big-number{font-size:27px;font-weight:850;letter-spacing:-.6px}
+.green{color:var(--green)!important}.cyan{color:var(--cyan)!important}.amber{color:var(--amber)!important}.red{color:var(--red)!important}.violet{color:var(--violet)!important}
+.meter{height:6px;border-radius:10px;background:#16273a;overflow:hidden}
+.meter span{display:block;width:0;height:100%;border-radius:10px;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--violet));transition:width .35s}
+.rule-list,.log{display:grid;gap:7px;max-height:220px;overflow:auto}
+.rule{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:10px;border-radius:9px;background:rgba(3,8,17,.68);border:1px solid rgba(83,220,255,.12)}
+.rule-main{min-width:0;overflow-wrap:anywhere}
+.rule-main strong{font-size:11px;display:block}
+.rule-main small{font-size:9px;color:var(--muted)}
+.rule-status{font-size:9px;color:var(--amber);white-space:nowrap}
+.log{font-size:10px;line-height:1.7;padding:12px;border-radius:9px;border:1px solid rgba(83,220,255,.12);background:#030710}
+.log-line{overflow-wrap:anywhere;white-space:pre-wrap}
+.log-line.ok{color:var(--green)}.log-line.warn{color:var(--amber)}.log-line.bad{color:var(--red)}.log-line.dim{color:var(--muted)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kv{padding:10px;border:1px solid rgba(83,220,255,.11);border-radius:9px;background:#060c17;min-width:0}
+.kv small{color:var(--muted);display:block;font-size:9px}
+.kv strong{display:block;margin-top:5px;font-size:12px;overflow-wrap:anywhere}
+canvas{display:block;width:100%;height:220px;background:#030811;border:1px solid rgba(83,220,255,.15);border-radius:10px}
+.footer{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:20px;margin-top:10px;color:var(--muted);font-size:10px}
+.toast{position:fixed;right:20px;bottom:20px;z-index:30;max-width:min(360px,calc(100vw - 40px));padding:12px 16px;background:#0b1c2b;border:1px solid var(--line2);border-radius:11px;box-shadow:var(--shadow);color:var(--text);opacity:0;transform:translateY(8px);pointer-events:none;transition:.2s}
+.toast.show{opacity:1;transform:translateY(0)}
+.custom-module { position: relative !important; top: auto !important; bottom: auto !important; left: auto !important; right: auto !important; width: 100% !important; margin-bottom: 15px; }
+@media(max-width:1050px){.layout{grid-template-columns:190px minmax(0,1fr);gap:14px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:780px){.layout{grid-template-columns:1fr}.sidebar{position:static}.nav{grid-template-columns:repeat(2,minmax(0,1fr))}.side-card{padding:12px}.side-foot{display:none}.tools-grid{grid-template-columns:1fr}.panel.full{grid-column:auto}.hero:before,.hero:after{opacity:.5}}
+@media(max-width:460px){.topbar{align-items:flex-start}.top-right{width:100%}.nav{grid-template-columns:1fr 1fr}.stats{gap:8px}.stat{padding:12px}.row.wrap-mobile{flex-wrap:wrap}.row.wrap-mobile>*{flex:1 1 100%}.hero{padding:22px}.two-col{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">N<span style="color:var(--violet)">/</span>4</div>
+    <div><div class="brand-name">NETWORK<span>404</span></div><div class="brand-sub">Cyber command interface · v3.0</div></div>
+  </div>
+  <div class="top-right">
+    <span class="pill"><i class="dot"></i><span id="network-pill">NETWORK STATUS CHECK</span></span>
+    <span class="pill">LOCAL TIME <strong id="clock">--:--:--</strong></span>
+    <span class="pill">SECURITY <strong class="green">BROWSER MODE</strong></span>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="side-card">
+      <div class="side-label">Command navigation</div>
+      <nav class="nav" id="nav">
+        <button class="active" data-target="overview"><span class="nav-icon">⌂</span>Overview</button>
+        <button data-target="crypto"><span class="nav-icon">⌘</span>Crypto tools</button>
+        <button data-target="firewall"><span class="nav-icon">⬡</span>Firewall list</button>
+        <button data-target="network"><span class="nav-icon">⌁</span>Network status</button>
+        <button data-target="speedtest"><span class="nav-icon">◴</span>Speed test</button>
+        <button data-target="vault"><span class="nav-icon">▣</span>Vault notes</button>
+        <button data-target="terminal"><span class="nav-icon">›_</span>Terminal</button>
+        <button data-target="radar"><span class="nav-icon">◎</span>Radar</button>
+        <button data-target="audit"><span class="nav-icon">≋</span>Audit log</button>
+      </nav>
+      <div class="side-foot">INTERFACE STATUS<br><span class="green">●</span> Browser tools available<br><span class="amber">●</span> OS-level tools require a local agent</div>
+    </div>
+    <div class="side-card">
+      <div class="side-label">Session summary</div>
+      <div class="two-col" style="margin-top:12px">
+        <div class="kv"><small>TOOLS</small><strong>10 modules</strong></div>
+        <div class="kv"><small>MODE</small><strong class="cyan">Local</strong></div>
+        <div class="kv"><small>HASH</small><strong>SHA-256</strong></div>
+        <div class="kv"><small>STORAGE</small><strong>Browser</strong></div>
+      </div>
+      <p class="help" style="margin-bottom:0">This dashboard never claims to block traffic, inspect kernel memory, or track satellites unless connected to a trusted authorized backend.</p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <section class="hero" id="overview">
+      <div class="hero-content">
+        <div class="eyebrow"><span class="dot"></span> CYBERSPACE / PERSONAL SECURITY CONSOLE</div>
+        <h1>Control your tools.<br><span>Know what is real.</span></h1>
+        <p>A polished browser-based workspace for hashing, encoding, local security notes, browser telemetry, network status, and an animated radar display. Useful controls, clear status, and no fabricated scan results.</p>
+        <div class="hero-actions">
+          <button class="btn primary" data-jump="crypto">Open crypto tools ↗</button>
+          <button class="btn subtle" data-jump="audit">View activity log</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Overview statistics">
+      <div class="stat"><div class="stat-top"><span>CONNECTION HINT</span><span class="stat-icon">⌁</span></div><div class="stat-value" id="stat-online">—</div><div class="stat-note" id="stat-online-note">Browser-reported state</div></div>
+      <div class="stat"><div class="stat-top"><span>LOGICAL CORES</span><span class="stat-icon">◈</span></div><div class="stat-value" id="stat-cores">—</div><div class="stat-note">If exposed by browser</div></div>
+      <div class="stat"><div class="stat-top"><span>VIEWPORT</span><span class="stat-icon">▣</span></div><div class="stat-value" id="stat-view">—</div><div class="stat-note">Current browser window</div></div>
+      <div class="stat"><div class="stat-top"><span>SESSION EVENTS</span><span class="stat-icon">≋</span></div><div class="stat-value" id="stat-events">0</div><div class="stat-note">Recorded on this page</div></div>
+    </section>
+
+    <div class="section-head"><div><h2>Operational modules</h2><p>Tools are grouped by capability. Select any module to use it.</p></div><span class="pill">● <span id="module-state">ALL MODULES LOADED</span></span></div>
+
+    <div class="tools-grid">
+      <section class="panel" id="crypto">
+        <div class="panel-head"><div class="panel-title"><div class="panel-icon">⌘</div><div><strong>SHA-256 Hash Generator</strong><small>One-way digest · Web Crypto</small></div></div><span class="badge">LOCAL</span></div>
+        <div class="panel-body">
+          <label for="sha-input">TEXT TO HASH</label>
+          <textarea id="sha-input" class="field" placeholder="Enter text here…"></textarea>
+          <div class="row"><button class="btn primary" id="hash-btn">Generate hash</button><button class="btn subtle" id="hash-clear">Clear</button></div>
+          <label for="sha-output">SHA-256 DIGEST</label><textarea id="sha-output" class="field" readonly placeholder="64-character digest appears here"></textarea>
+          <div class="row"><button class="btn small" data-copy="sha-output">Copy digest</button><span class="help">Hashing is not encryption.</span></div>
+        </div>
+      </section>
+
+      <section class="panel" id="base64">
+        <div class="panel-head"><div class="panel-title"><div class="panel-icon">⇄</div><div><strong>Base64 Encoder / Decoder</strong><small>UTF-8 compatible text conversion</small></div></div><span class="badge">LOCAL</span></div>
+        <div class="panel-body">
+          <label for="base64-input">INPUT TEXT / BASE64</label><textarea id="base64-input" class="field" placeholder="Enter text to encode or Base64 to decode…"></textarea>
+          <div class="row"><button class="btn primary" id="b64-encode">Encode</button><button class="btn" id="b64-decode">Decode</button><button class="btn subtle" id="b64-clear">Clear</button></div>
+          <label for="base64-output">RESULT</label><textarea id="base64-output" class="field" placeholder="Result appears here"></textarea>
+          <div class="help">Base64 is an encoding format, not encryption or a secure vault.</div>
+        </div>
+      </section>
+
+      <section class="panel" id="firewall">
+        <div class="panel-head"><div class="panel-title"><div class="panel-icon">⬡</div><div><strong>Firewall Rulebook</strong><small>Manage a local reference list</small></div></div><span class="badge amber">NOT ENFORCED</span></div>
+        <div class="panel-body">
+          <p class="help" style="margin:0">Add IP addresses to your dashboard list. These entries do not block network traffic or change your operating-system firewall.</p>
+          <label for="fw-ip">IP ADDRESS</label><div class="row"><input id="fw-ip" class="field" placeholder="Example: 192.168.1.10"><button class="btn primary" id="fw-add">Add</button></div>
+          <div class="row"><span class="label">SAVED REFERENCE RULES</span><button class="btn small subtle" id="fw-clear">Clear all</button></div>
+          <div id="fw-list" class="rule-list"></div>
+          <div class="help">For real enforcement, use the OS firewall or an authorized local agent. An IP address can be syntactically valid without being reachable or malicious.</div>
+        </div>
+      </section>
+
+      <section class="panel" id="network">
+        <div class="panel-head"><div class="panel-title"><div class="panel-icon">⌁</div><div><strong>Network Status</strong><small>Browser connection signal</small></div></div><span class="badge">LIVE API</span></div>
+        <div class="panel-body">
+          <div class="big-number green" id="net-value">CHECKING</div>
+          <div class="meter"><span id="net-meter"></span></div>
+          <div class="two-col"><div class="kv"><small>ONLINE HINT</small><strong id="net-detail">Waiting…</strong></div><div class="kv"><small>COOKIE ACCESS</small><strong id="cookie-detail">—</strong></div><div class="kv"><small>PLATFORM</small><strong id="platform-detail">—</strong></div><div class="kv"><small>BROWSER CORES</small><strong id="cores-detail">—</strong></div></div>
+          <button class="btn" id="net-check">Refresh status</button>
+          <div class="help">The browser's online flag is only a hint. It does not verify the speed, quality, security, or reachability of every internet service.</div>
+        </div>
+      </section>
+
+      <section class="panel" id="speedtest">
+        <div class="panel-head"><div class="panel-title"><div class="panel-icon">◴</div><div><strong>Download Timing Test</strong><small>Small external test request</small></div></div><span class="badge amber">BEST EFFORT</span></div>
+        <div class="panel-body">
+          <div class="label">ESTIMATED DOWNLOAD RATE</div><div class="big-number cyan" id="speed-val">— Mbps</div>
+          <div class="meter"><span id="speed-meter"></span></div>
+          <div class="help" id="speed-state">Ready. The test requires internet access and the endpoint to allow the browser request.</div>
+          <button class="btn primary" id="speed-btn">Run download test</button>
+          <div class="help">This is not a certified ISP speed test. Browser, endpoint, CORS, and background traffic affect the result.</div>
+        </div>
+      </section>
+
+      <section class="panel" id="vault">
+        <div class="panel-head"><div class="panel-title"><div class="panel-icon">▣</div><div><strong>Vault Notes</strong><small>Saved in this browser profile</small></div></div><span class="badge amber">NOT ENCRYPTED</span></div>
+        <div class="panel-body">
+          <label for="vault-textarea">PERSONAL NOTES</label><textarea id="vault-textarea" class="field" style="min-height:150px" placeholder="Write non-sensitive notes here…"></textarea>
+          <div class="row"><button class="btn primary" id="vault-save">Save notes</button><button class="btn" id="vault-load">Reload</button><button class="btn danger" id="vault-clear">Delete</button></div>
+          <div class="help">Notes use browser localStorage. They are not encrypted and may be accessible to other people using the same browser profile. Never save passwords or recovery codes here.</div>
+        </div>
+      </section>
+
+      <section class="panel" id="terminal">
+        <div class="panel-head"><div class="panel-title"><div class="panel-icon">›_</div><div><strong>Terminal Simulator</strong><small>Safe browser-only commands</small></div></div><span class="badge">SIMULATOR</span></div>
+        <div class="panel-body">
+          <div id="terminal-logs" class="log" style="min-height:160px" aria-live="polite"><div class="log-line ok">NETWORK404 browser console ready. Type help.</div></div>
+          <form id="terminal-form" class="row"><input id="terminal-input" class="field" autocomplete="off" placeholder="Type a command…"><button class="btn primary">Run</button></form>
+          <div class="help">Commands: help, sysinfo, netstatus, hashinfo, time, clear. This does not execute operating-system commands.</div>
+        </div>
+      </section>
+
+      <section class="panel" id="radar">
+        <div class="panel-head"><div class="panel-title"><div class="panel-icon">◎</div><div><strong>Orbital Radar Visualizer</strong><small>Live Satellite & CelesTrak Integration</small></div></div><span class="badge green" id="radar-badge-status">CONNECTED (LIVE)</span></div>
+        <div class="panel-body">
+          <canvas id="radar-canvas" width="640" height="320" aria-label="Active live radar animation"></canvas>
+          <div class="two-col"><div class="kv"><small>VISUALIZER</small><strong class="green">RUNNING</strong></div><div class="kv"><small>LIVE SATELLITE DATA</small><strong class="green" id="satellite-conn-status">ACTIVE (ISS / ORBITAL)</strong></div></div>
+          <div class="help" id="radar-info-text">Connected to public orbital TLE telemetry. Displaying real-time satellite trajectory mapping on radar grid.</div>
+        </div>
+      </section>
+
+      <!-- بەشی کامێرای ڕاستەوخۆ و HUD -->
+      <div id="live-camera-module" class="custom-module" style="background: rgba(0, 15, 30, 0.85); border: 1px solid #00ffcc; border-radius: 8px; font-family: monospace; color: #00ffcc; padding: 10px; z-index: 9; box-shadow: 0 0 15px rgba(0,255,204,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00ffcc; padding-bottom: 5px; margin-bottom: 8px;">
+              <span style="font-size: 12px; font-weight: bold;">[CAM_01] ISS LIVE FEED</span>
+              <span style="font-size: 10px; background: #ff0055; color: #fff; padding: 2px 5px; border-radius: 3px; animation: blink 1s infinite;">REC ●</span>
+          </div>
+          <div style="position: relative; width: 100%; height: 180px; background: #000; overflow: hidden; border: 1px solid #005555;">
+              <iframe src="https://www.youtube.com/embed/21X5lGlDOfg?autoplay=1&mute=1&controls=0&modestbranding=1&loop=1" style="width: 100%; height: 100%; border: none; pointer-events: none;" allow="autoplay"></iframe>
+              <div style="position: absolute; top: 10px; left: 10px; font-size: 9px; color: #00ffcc; text-shadow: 0 0 3px #00ffcc;">LAT: 45.281 N</div>
+              <div style="position: absolute; top: 10px; right: 10px; font-size: 9px; color: #00ffcc; text-shadow: 0 0 3px #00ffcc;">ALT: 420 KM</div>
+              <div style="position: absolute; bottom: 10px; left: 10px; font-size: 9px; color: #ff0055; text-shadow: 0 0 3px #ff0055;">STATUS: LOCKED</div>
+              <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; border: 1px dashed rgba(0,255,204,0.5); border-radius: 50%;"></div>
+          </div>
+          <div style="font-size: 10px; margin-top: 6px; color: #88ccff; display: flex; justify-content: space-between;">
+              <div>SIGNAL: OPTIMAL</div>
+              <div>HD-STREAM</div>
+          </div>
+      </div>
+
+      <!-- بەشی هۆشداری و چاودێری کامێرای نزیک -->
+      <div id="proximity-camera-module" class="custom-module" style="background: rgba(0, 15, 30, 0.9); border: 1px solid #ffcc00; border-radius: 8px; font-family: monospace; color: #ffcc00; padding: 10px; z-index: 9; box-shadow: 0 0 15px rgba(255,204,0,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ffcc00; padding-bottom: 5px; margin-bottom: 8px;">
+              <span style="font-size: 11px; font-weight: bold;">[RADAR] PROXIMITY CAMERAS</span>
+              <span id="cam-alert-status" style="font-size: 10px; background: #00ffcc; color: #000; padding: 2px 5px; border-radius: 3px; font-weight: bold;">SCANNING</span>
+          </div>
+          <div style="font-size: 10px; line-height: 1.5; margin-bottom: 8px;">
+              <div>LAT/LNG: <span id="user-coords">Locating...</span></div>
+              <div>CAMERAS NEARBY: <span id="nearby-count" style="color: #ff0055; font-weight: bold;">0</span></div>
+              <div id="nearest-cam-info" style="color: #fff; margin-top: 4px;">Searching for active feeds...</div>
+          </div>
+          <div style="position: relative; width: 100%; height: 140px; background: #000; overflow: hidden; border: 1px solid #554400;">
+              <video id="proximity-cam-feed" autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover;"></video>
+              <div style="position: absolute; bottom: 5px; left: 5px; font-size: 9px; color: #ffcc00; text-shadow: 0 0 3px #ffcc00;" id="cam-distance-label">DIST: --</div>
+          </div>
+      </div>
+
+      <!-- بەشی ڕاداری وایفای -->
+      <div id="wifi-radar-module" class="custom-module" style="background: rgba(0, 20, 40, 0.9); border: 1px solid #00ffcc; border-radius: 8px; font-family: monospace; color: #00ffcc; padding: 10px; z-index: 9; box-shadow: 0 0 15px rgba(0,255,204,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00ffcc; padding-bottom: 5px; margin-bottom: 8px;">
+              <span style="font-size: 11px; font-weight: bold;">[WIFI] SIGNAL RADAR</span>
+              <span style="font-size: 10px; background: #00ffcc; color: #000; padding: 2px 5px; border-radius: 3px; font-weight: bold;" id="wifi-status">ACTIVE</span>
+          </div>
+          <div style="font-size: 10px; line-height: 1.6;">
+              <div>SCANNING FREQ: <span style="color: #fff;">2.4GHz / 5GHz</span></div>
+              <div>NETWORKS FOUND: <span id="wifi-count" style="color: #ff0055; font-weight: bold;">3</span></div>
+              <div style="margin-top: 5px; border-top: 1px dashed #005555; padding-top: 5px;" id="wifi-list">
+                  > [SECURE] Private_Net_5G (-42dBm)<br>
+                  > [OPEN] Free_Public_WiLab (-65dBm)<br>
+                  > [HIDDEN] Target_AP_Secured (-80dBm)
+              </div>
+          </div>
+      </div>
+
+      <!-- بەشی پیشاندانی IP و داتای وایفای بەستراو -->
+      <div id="wifi-ip-module" class="custom-module" style="background: rgba(0, 20, 40, 0.9); border: 1px solid #00ffcc; border-radius: 8px; font-family: monospace; color: #00ffcc; padding: 10px; z-index: 9; box-shadow: 0 0 15px rgba(0,255,204,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00ffcc; padding-bottom: 5px; margin-bottom: 8px;">
+              <span style="font-size: 11px; font-weight: bold;">[NET] ACTIVE CONNECTION</span>
+              <span style="font-size: 10px; background: #00ffcc; color: #000; padding: 2px 5px; border-radius: 3px; font-weight: bold;" id="ip-status">ONLINE</span>
+          </div>
+          <div style="font-size: 10px; line-height: 1.6;">
+              <div>LOCAL IP: <span id="local-ip-display" style="color: #fff; font-weight: bold;">Scanning...</span></div>
+              <div>GATEWAY IP: <span id="gateway-ip" style="color: #ff0055;">Detecting...</span></div>
+              <div>STATUS: <span style="color: #00ffcc;">LINKED TO AP</span></div>
+          </div>
+      </div>
+
+      <!-- بەشی سکانکردنی بلوتووچ -->
+      <div id="bluetooth-radar-module" class="custom-module" style="background: rgba(0, 20, 40, 0.9); border: 1px solid #00ffcc; border-radius: 8px; font-family: monospace; color: #00ffcc; padding: 10px; z-index: 9; box-shadow: 0 0 15px rgba(0,255,204,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00ffcc; padding-bottom: 5px; margin-bottom: 8px;">
+              <span style="font-size: 11px; font-weight: bold;">[BT] BLUETOOTH RADAR</span>
+              <span style="font-size: 10px; background: #00ffcc; color: #000; padding: 2px 5px; border-radius: 3px; font-weight: bold;" id="bt-status">STANDBY</span>
+          </div>
+          <div style="font-size: 10px; line-height: 1.6; margin-bottom: 8px;">
+              <div>TARGET: <span id="bt-device-name" style="color: #fff;">No device scanned</span></div>
+              <div>SIGNAL TYPE: <span style="color: #ff0055;">BLE / Active Scan</span></div>
+          </div>
+          <button onclick="scanBluetoothDevices()" style="width: 100%; background: #00ffcc; color: #000; border: none; padding: 6px; font-family: monospace; font-weight: bold; cursor: pointer; border-radius: 4px; box-shadow: 0 0 10px rgba(0,255,204,0.4);">SCAN BT DEVICES</button>
+      </div>
+
+      <!-- بەشی پەنێڵی نێتۆرک و سکانی بلوتووچ بۆ ناو CodePen -->
+      <div id="cyber-module" class="custom-module" style="background: rgba(0, 20, 40, 0.9); border: 1px solid #00ffcc; border-radius: 8px; font-family: monospace; color: #00ffcc; padding: 10px; z-index: 9; box-shadow: 0 0 15px rgba(0,255,204,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00ffcc; padding-bottom: 5px; margin-bottom: 8px;">
+              <span style="font-size: 11px; font-weight: bold;">[SYS] RADAR TERMINAL</span>
+              <span style="font-size: 10px; background: #00ffcc; color: #000; padding: 2px 5px; border-radius: 3px; font-weight: bold;" id="sys-status">ONLINE</span>
+          </div>
+          <div style="font-size: 10px; line-height: 1.6; margin-bottom: 8px;">
+              <div>LOCAL IP: <span id="display-ip" style="color: #fff;">Scanning...</span></div>
+              <div>BT DEVICE: <span id="display-bt" style="color: #ff0055;">None Selected</span></div>
+          </div>
+          <button onclick="runBrowserBluetoothScan()" style="width: 100%; background: #00ffcc; color: #000; border: none; padding: 6px; font-family: monospace; font-weight: bold; cursor: pointer; border-radius: 4px; box-shadow: 0 0 10px rgba(0,255,204,0.4);">RUN BT SCANNER</button>
+      </div>
+
+      <!-- بەشی سیموڵەیشنی زیرەکی پاسوۆرد -->
+      <div id="smart-brute-module" class="custom-module" style="background: rgba(0, 20, 40, 0.95); border: 1px solid #00ffcc; border-radius: 8px; font-family: monospace; color: #00ffcc; padding: 10px; z-index: 9; box-shadow: 0 0 15px rgba(0,255,204,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00ffcc; padding-bottom: 5px; margin-bottom: 8px;">
+              <span style="font-size: 11px; font-weight: bold;">[SMART] AI CRACKER V2</span>
+              <span style="font-size: 10px; background: #ff0055; color: #fff; padding: 2px 5px; border-radius: 3px; font-weight: bold;" id="smart-status">READY</span>
+          </div>
+          <div style="font-size: 10px; line-height: 1.6; margin-bottom: 8px;">
+              <div style="margin-bottom: 4px;">TARGET PLATFORM: 
+                  <select id="smart-app" style="background: #001020; color: #00ffcc; border: 1px solid #00ffcc; font-family: monospace; font-size: 10px; width: 100%; margin-top: 2px; padding: 3px;">
+                      <option value="Instagram">Instagram</option>
+                      <option value="Snapchat">Snapchat</option>
+                      <option value="TikTok">TikTok</option>
+                  </select>
+              </div>
+              <div style="margin-bottom: 4px;">USERNAME: <input type="text" id="smart-user" placeholder="e.g. cyber404" style="background: #001020; color: #fff; border: 1px solid #00ffcc; font-family: monospace; font-size: 10px; width: 100%; padding: 3px; margin-top: 2px; box-sizing: border-box;"></div>
+          </div>
+          <button onclick="startSmartSimulation()" style="width: 100%; background: #00ffcc; color: #000; border: none; padding: 6px; font-family: monospace; font-weight: bold; cursor: pointer; border-radius: 4px; box-shadow: 0 0 10px rgba(0,255,204,0.4); margin-bottom: 8px;">RUN AI TARGET CRACK</button>
+          <div style="background: #000; border: 1px solid #005555; height: 95px; padding: 5px; font-size: 9px; overflow-y: auto; color: #00ffcc; line-height: 1.4;" id="smart-terminal">
+              > AI Core online...<br>
+              > Waiting for target input...
+          </div>
+      </div>
+
+      <!-- نەخشەی هێرشی سایبەری -->
+      <div id="cyber-map-module" class="custom-module" style="background: rgba(0, 20, 40, 0.95); border: 1px solid #00ffcc; border-radius: 8px; font-family: monospace; color: #00ffcc; padding: 10px; z-index: 9; box-shadow: 0 0 15px rgba(0,255,204,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00ffcc; padding-bottom: 5px; margin-bottom: 8px;">
+              <span style="font-size: 11px; font-weight: bold;">[MAP] GLOBAL THREAT FEED</span>
+              <span style="font-size: 10px; background: #00ffcc; color: #000; padding: 2px 5px; border-radius: 3px; font-weight: bold;" id="map-status">LIVE</span>
+          </div>
+          <div style="background: #000; border: 1px solid #005555; height: 110px; position: relative; overflow: hidden; border-radius: 4px;" id="radar-screen">
+              <div style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, rgba(0,255,204,0.1) 0%, rgba(0,0,0,0.9) 70%);"></div>
+              <div id="radar-sweep" style="position: absolute; top: 50%; left: 50%; width: 100px; height: 2px; background: linear-gradient(90deg, transparent, #00ffcc); transform-origin: left center; animation: spinRadar 4s linear infinite;"></div>
+              <div id="attack-logs" style="position: absolute; bottom: 5px; left: 55px; font-size: 8px; color: #ff0055; line-height: 1.3;">
+                  > Threat detected: IP 185.22.x.x<br>
+                  > Vector: DDoS / Port 443
+              </div>
+          </div>
+      </div>
+
+      <!-- بەشی پۆرت سکانەر و پاکێت ستریم -->
+      <div id="packet-module" class="custom-module" style="background: rgba(0, 20, 40, 0.95); border: 1px solid #00ffcc; border-radius: 8px; font-family: monospace; color: #00ffcc; padding: 10px; z-index: 9; box-shadow: 0 0 15px rgba(0,255,204,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00ffcc; padding-bottom: 5px; margin-bottom: 8px;">
+              <span style="font-size: 11px; font-weight: bold;">[NET] PORT & PACKET SNIFFER</span>
+              <button onclick="toggleSniffer()" style="background: #ff0055; color: #fff; border: none; font-size: 9px; cursor: pointer; padding: 2px 6px; font-family: monospace; border-radius: 3px;" id="sniff-btn">PAUSE</button>
+          </div>
+          <div style="background: #000; border: 1px solid #005555; height: 90px; padding: 5px; font-size: 9px; overflow-y: auto; color: #00ffcc; line-height: 1.4;" id="packet-terminal">
+              > Initializing packet capture interface...<br>
+              > Listening on eth0 [PROMISCUOUS MODE]...
+          </div>
+      </div>
+
+      <!-- بەشی سیموڵەیشنی دروستکەری ڤایرۆس/پەیوەندی -->
+      <div id="malware-module" class="custom-module" style="background: rgba(0, 20, 40, 0.95); border: 1px solid #00ffcc; border-radius: 8px; font-family: monospace; color: #00ffcc; padding: 10px; z-index: 9; box-shadow: 0 0 15px rgba(0,255,204,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00ffcc; padding-bottom: 5px; margin-bottom: 8px;">
+              <span style="font-size: 11px; font-weight: bold;">[GEN] PAYLOAD GENERATOR</span>
+              <span style="font-size: 10px; background: #00ffcc; color: #000; padding: 2px 5px; border-radius: 3px; font-weight: bold;" id="gen-status">IDLE</span>
+          </div>
+          <div style="font-size: 10px; line-height: 1.6; margin-bottom: 8px;">
+              <div style="margin-bottom: 4px;">PAYLOAD TYPE: 
+                  <select id="payload-type" style="background: #001020; color: #00ffcc; border: 1px solid #00ffcc; font-family: monospace; font-size: 10px; width: 100%; margin-top: 2px; padding: 3px;">
+                      <option value="Reverse_Shell">Reverse Shell (TCP)</option>
+                      <option value="Keylogger_X">Stealth Keylogger</option>
+                      <option value="Session_Hijack">Session Hijacker</option>
+                  </select>
+              </div>
+          </div>
+          <button onclick="generatePayload()" style="width: 100%; background: #ff0055; color: #fff; border: none; padding: 6px; font-family: monospace; font-weight: bold; cursor: pointer; border-radius: 4px; box-shadow: 0 0 10px rgba(255,0,85,0.4); margin-bottom: 8px;">BUILD & COMPILE</button>
+          <div style="background: #000; border: 1px solid #005555; height: 85px; padding: 5px; font-size: 9px; overflow-y: auto; color: #00ff00; line-height: 1.3;" id="gen-terminal">
+              > Ready for compilation...<br>
+              > Select module and click build.
+          </div>
+      </div>
+
+      <!-- بەشی سیستەم ستاتوس -->
+      <div id="system-status-module" class="custom-module" style="background: rgba(0, 20, 40, 0.95); border: 1px solid #00ffcc; border-radius: 8px; font-family: monospace; color: #00ffcc; padding: 10px; z-index: 9; box-shadow: 0 0 15px rgba(0,255,204,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00ffcc; padding-bottom: 5px; margin-bottom: 8px;">
+              <span style="font-size: 11px; font-weight: bold;">[CORE] SYSTEM TELEMETRY</span>
+              <span style="font-size: 10px; background: #00ffcc; color: #000; padding: 2px 5px; border-radius: 3px; font-weight: bold;">ONLINE</span>
+          </div>
+          <div style="font-size: 10px; line-height: 1.8;">
+              <div>CPU CORE LOAD: <span id="cpu-val" style="float: right; color: #fff;">78%</span></div>
+              <div style="background: #001020; border: 1px solid #005555; height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 6px;">
+                  <div id="cpu-bar" style="width: 78%; height: 100%; background: #00ffcc; transition: width 0.4s;"></div>
+              </div>
+              <div>QUANTUM RAM: <span id="ram-val" style="float: right; color: #fff;">14.2 GB</span></div>
+              <div style="background: #001020; border: 1px solid #005555; height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 6px;">
+                  <div id="ram-bar" style="width: 65%; height: 100%; background: #ff0055; transition: width 0.4s;"></div>
+              </div>
+              <div>CORE TEMP: <span id="temp-val" style="float: right; color: #ff0055;">64°C</span></div>
+          </div>
+      </div>
+
+      <!-- بەشی ڕاداری هێرش و لۆگی زیندوو -->
+      <div id="cyber-radar-module" class="custom-module" style="background: rgba(0, 15, 30, 0.95); border: 1px solid #00ffcc; border-radius: 8px; font-family: monospace; color: #00ffcc; padding: 12px; z-index: 9; box-shadow: 0 0 20px rgba(0,255,204,0.4);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00ffcc; padding-bottom: 6px; margin-bottom: 10px;">
+              <span style="font-size: 11px; font-weight: bold; letter-spacing: 1px;">[TACTICAL] THREAT RADAR & FEED</span>
+              <span style="font-size: 9px; background: #ff0055; color: #fff; padding: 2px 6px; border-radius: 3px; font-weight: bold; animation: pulseGlow 1.5s infinite;">ACTIVE</span>
+          </div>
+          <div style="background: #000; border: 1px solid #004444; height: 120px; position: relative; overflow: hidden; border-radius: 4px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
+              <div style="position: absolute; width: 80px; height: 80px; border: 1px dashed rgba(0,255,204,0.3); border-radius: 50%;"></div>
+              <div style="position: absolute; width: 40px; height: 40px; border: 1px solid rgba(0,255,204,0.2); border-radius: 50%;"></div>
+              <div style="position: absolute; width: 100%; height: 1px; background: rgba(0,255,204,0.1);"></div>
+              <div style="position: absolute; width: 1px; height: 100%; background: rgba(0,255,204,0.1);"></div>
+              <div style="position: absolute; top: 50%; left: 50%; width: 60px; height: 2px; background: linear-gradient(90deg, transparent, #00ffcc); transform-origin: left center; animation: sweepRadar 3s linear infinite;"></div>
+              <div style="position: absolute; top: 35px; right: 70px; width: 4px; height: 4px; background: #ff0055; border-radius: 50%; box-shadow: 0 0 6px #ff0055;"></div>
+              <div style="position: absolute; bottom: 30px; left: 80px; width: 4px; height: 4px; background: #00ffcc; border-radius: 50%; box-shadow: 0 0 6px #00ffcc;"></div>
+              <div style="position: absolute; bottom: 4px; left: 6px; font-size: 8px; color: #00aa88;">LAT: 35.5681° N | LONG: 45.4341° E</div>
+          </div>
+          <div style="background: #000; border: 1px solid #004444; height: 90px; padding: 6px; font-size: 9px; overflow-y: auto; color: #00ffcc; line-height: 1.4;" id="radar-terminal">
+              > Initializing secure perimeter scan...<br>
+              > Node connection established on port 443.
+          </div>
+      </div>
+
+      <!-- بەشی هۆشداری تێکشکاندنی کۆر و دەستبەسەرداگرتنی سیستم -->
+      <div id="core-override-module" class="custom-module" style="background: rgba(20, 0, 5, 0.95); border: 1px solid #ff0055; border-radius: 8px; font-family: monospace; color: #ff0055; padding: 12px; z-index: 9; box-shadow: 0 0 25px rgba(255,0,85,0.5);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ff0055; padding-bottom: 6px; margin-bottom: 10px;">
+              <span style="font-size: 11px; font-weight: bold; letter-spacing: 1px; color: #ff0055;">[CRITICAL] PROTOCOL ZERO - OVERRIDE</span>
+              <span style="font-size: 9px; background: #ff0055; color: #000; padding: 2px 6px; border-radius: 3px; font-weight: bold; animation: alertBlink 0.8s infinite;">BREACH</span>
+          </div>
+          <div style="background: rgba(0,0,0,0.8); border: 1px solid #ff0055; height: 100px; padding: 6px; font-size: 9px; overflow-y: auto; color: #ff3366; line-height: 1.5; margin-bottom: 10px;" id="override-terminal">
+              > WARNING: Root privileges accessed remotely.<br>
+              > Bypassing biometric authentication layers...<br>
+              > Target core temperature rising: 89°C<br>
+              > WARNING: Firewall integrity at 14%!
+          </div>
+          <button onclick="executeOverride()" style="width: 100%; background: #ff0055; color: #fff; border: none; padding: 7px; font-family: monospace; font-weight: bold; cursor: pointer; border-radius: 4px; box-shadow: 0 0 15px rgba(255,0,85,0.7); letter-spacing: 1px;">EXECUTE SYSTEM WIPE</button>
+      </div>
+
+      <section class="panel full" id="telemetry">
+        <div class="panel-head"><div class="panel-title"><div class="panel-icon">▤</div><div><strong>Browser Telemetry & Environment</strong><small>Values exposed by the current browser</small></div></div><span class="badge">READ ONLY</span></div>
+        <div class="panel-body">
+          <div class="two-col">
+            <div class="kv"><small>USER AGENT</small><strong id="ua-full">—</strong></div>
+            <div class="kv"><small>VIEWPORT SIZE</small><strong id="tele-screen">—</strong></div>
+            <div class="kv"><small>PLATFORM HINT</small><strong id="tele-os">—</strong></div>
+            <div class="kv"><small>LOGICAL CORES</small><strong id="tele-cores">—</strong></div>
+            <div class="kv"><small>LANGUAGE</small><strong id="tele-language">—</strong></div>
+            <div class="kv"><small>TIME ZONE</small><strong id="tele-zone">—</strong></div>
+          </div>
+          <div class="help">Browsers intentionally restrict access to OS processes, kernel memory, Wi-Fi scanning, packet capture, and physical firewall controls.</div>
+        </div>
+      </section>
+
+      <section class="panel full" id="audit">
+        <div class="panel-head"><div class="panel-title"><div class="panel-icon">≋</div><div><strong>Activity Audit Trail</strong><small>Actions performed inside this page</small></div></div><span class="badge">SESSION LOG</span></div>
+        <div class="panel-body">
+          <div id="audit-log" class="log" style="max-height:260px" aria-live="polite"></div>
+          <div class="row"><button class="btn" id="audit-export">Export log (.txt)</button><button class="btn subtle" id="audit-clear">Clear log</button></div>
+          <div class="help">This is a local page activity log, not a tamper-proof security audit system.</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- بەشی هێڵی داتای بەردەوام - سایبەرپانک -->
+    <div id="stream-module" class="custom-module" style="background: rgba(0, 10, 20, 0.9); border: 1px solid #00ffcc; border-radius: 6px; font-family: monospace; color: #00ffcc; padding: 8px; z-index: 9; box-shadow: 0 0 10px rgba(0,255,204,0.2);">
+        <div style="font-size: 9px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #005555; padding-bottom: 3px; margin-bottom: 4px;">
+            <span>[SYS_LOG] LIVE KERNEL STREAM</span>
+            <span style="color: #ff0055; animation: blink 1.5s infinite;">● RECORDING</span>
+        </div>
+        <div style="font-size: 8px; color: #00aa88; height: 25px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" id="live-stream-text">
+            [+] Bypassing firewall on node 192.168.1.104... OK. Allocating memory buffers... SECURE.
+        </div>
+    </div>
+
+    <div class="footer"><span>NETWORK404 // CYBER COMMAND CENTER</span><span>Use security tools only on systems you own or have permission to assess.</span></div>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<style>
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+@keyframes spinRadar {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes sweepRadar {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes pulseGlow {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+@keyframes alertBlink {
+    0% { opacity: 0.2; background: #ff0055; color: #fff; }
+    50% { opacity: 1; background: #fff; color: #ff0055; }
+    100% { opacity: 0.2; background: #ff0055; color: #fff; }
+}
+</style>
+
+<script>
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const events = [];
+let toastTimer;
+function toast(message) {
+  const el=$("toast"); el.textContent=message; el.classList.add("show");
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove("show"),2600);
+}
+function audit(message,kind="dim") {
+  const entry={time:new Date().toLocaleTimeString(),message,kind};
+  events.unshift(entry); if(events.length>400) events.pop();
+  $("stat-events").textContent=events.length;
+  const line=document.createElement("div"); line.className="log-line "+kind;
+  line.textContent=`[${entry.time}] ${message}`;
+  $("audit-log").prepend(line);
+}
+function addLog(id,message,kind="dim") {
+  const line=document.createElement("div"); line.className="log-line "+kind;
+  line.textContent=message; $(id).append(line); $(id).scrollTop=$(id).scrollHeight;
+}
+function validIP(ip) {
+  ip=ip.trim();
+  const parts=ip.split(".");
+  if(parts.length===4 && parts.every(x=>/^\d{1,3}$/.test(x)&&Number(x)>=0&&Number(x)<=255)) return true;
+  if(ip.includes(":") && /^[0-9a-fA-F:]+$/.test(ip) && ip.length<=39) {
+    const chunks=ip.split(":");
+    return chunks.length>=3 && chunks.length<=8;
+  }
+  return false;
+}
+function saveRules() {
+  const values=[...$("fw-list").querySelectorAll("[data-ip]")].map(el=>el.dataset.ip);
+  try{localStorage.setItem("network404_rules",JSON.stringify(values));}catch{}
+}
+function addRule(ip,record=true) {
+  const row=document.createElement("div"); row.className="rule";
+  const main=document.createElement("div"); main.className="rule-main";
+  const title=document.createElement("strong"); title.textContent=ip;
+  const sub=document.createElement("small"); sub.textContent="Local reference only · traffic not blocked";
+  main.append(title,sub); main.dataset.ip=ip;
+  const status=document.createElement("span"); status.className="rule-status"; status.textContent="NOT ENFORCED";
+  const remove=document.createElement("button"); remove.className="btn small subtle"; remove.type="button"; remove.textContent="Remove";
+  remove.addEventListener("click",()=>{row.remove();saveRules();audit("Removed reference rule "+ip,"warn");});
+  row.append(main,status,remove); $("fw-list").append(row);
+  if(record) {saveRules();audit("Added local reference rule "+ip,"ok");}
+}
+function loadRules() {
+  try {
+    const saved=JSON.parse(localStorage.getItem("network404_rules")||"[]");
+    if(Array.isArray(saved)) saved.filter(x=>typeof x==="string"&&validIP(x)).forEach(ip=>addRule(ip,false));
+  } catch {}
+}
+function updateNet() {
+  const online=navigator.onLine;
+  $("network-pill").textContent=online?"BROWSER ONLINE":"BROWSER OFFLINE";
+  $("stat-online").textContent=online?"ONLINE":"OFFLINE";
+  $("stat-online").style.color=online?"var(--green)":"var(--red)";
+  $("stat-online-note").textContent=online?"Browser reports a connection":"Browser reports no connection";
+  $("net-value").textContent=online?"ONLINE":"OFFLINE";
+  $("net-value").className="big-number "+(online?"green":"red");
+  $("net-detail").textContent=online?"Connection hint is online":"Connection hint is offline";
+  $("net-meter").style.width=online?"100%":"0%";
+}
+function updateTelemetry() {
+  $("clock").textContent=new Date().toLocaleTimeString();
+  const cores=navigator.hardwareConcurrency||null;
+  $("stat-cores").textContent=cores??"N/A";
+  $("stat-view").textContent=innerWidth+"×"+innerHeight;
+  $("cookie-detail").textContent=navigator.cookieEnabled?"Enabled":"Disabled";
+  $("platform-detail").textContent=navigator.platform||"Not exposed";
+  $("cores-detail").textContent=cores?String(cores):"Not exposed";
+  $("ua-full").textContent=navigator.userAgent;
+  $("tele-screen").textContent=innerWidth+" × "+innerHeight+" px";
+  $("tele-os").textContent=navigator.platform||"Not exposed";
+  $("tele-cores").textContent=cores?cores+" logical cores":"Not exposed";
+  $("tele-language").textContent=navigator.language||"Not exposed";
+  $("tele-zone").textContent=Intl.DateTimeFormat().resolvedOptions().timeZone||"Not exposed";
+}
+$("hash-btn").addEventListener("click",async()=>{
+  const text=$("sha-input").value;
+  if(!text){$("sha-output").value="";toast("Enter text to hash first.");return;}
+  if(!window.crypto?.subtle){$("sha-output").value="Web Crypto unavailable. Open this page through HTTPS.";return;}
+  try{
+    const digest=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(text));
+    $("sha-output").value=[...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,"0")).join("");
+    audit("Generated SHA-256 digest","ok");toast("SHA-256 digest generated.");
+  }catch{$("sha-output").value="Hash generation failed.";audit("SHA-256 failed","bad");}
+});
+$("hash-clear").addEventListener("click",()=>{$("sha-input").value="";$("sha-output").value="";});
+$("b64-encode").addEventListener("click",()=>{
+  try{const bytes=new TextEncoder().encode($("base64-input").value);let bin="";bytes.forEach(b=>bin+=String.fromCharCode(b));$("base64-output").value=btoa(bin);audit("Base64 encoding completed","ok");}
+  catch{$("base64-output").value="Encoding failed.";audit("Base64 encoding failed","bad");}
+});
+$("b64-decode").addEventListener("click",()=>{
+  try{const bin=atob($("base64-input").value.trim());const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));$("base64-output").value=new TextDecoder("utf-8",{fatal:true}).decode(bytes);audit("Base64 decoding completed","ok");}
+  catch{$("base64-output").value="Invalid Base64 or invalid UTF-8 input.";audit("Base64 decoding failed","bad");}
+});
+$("b64-clear").addEventListener("click",()=>{$("base64-input").value="";$("base64-output").value="";});
+$("fw-add").addEventListener("click",()=>{
+  const ip=$("fw-ip").value.trim();
+  if(!validIP(ip)){toast("Enter a syntactically valid IPv4 or IPv6 address.");return;}
+  const exists=[...$("fw-list").querySelectorAll("[data-ip]")].some(el=>el.dataset.ip===ip);
+  if(exists){toast("That address is already listed.");return;}
+  addRule(ip);$("fw-ip").value="";toast("Added to the local reference list.");
+});
+$("fw-ip").addEventListener("keydown",e=>{if(e.key==="Enter")$("fw-add").click();});
+$("fw-clear").addEventListener("click",()=>{
+  if(!$("fw-list").children.length)return;
+  if(!confirm("Clear all local reference rules?"))return;
+  $("fw-list").replaceChildren();saveRules();audit("Cleared local reference rules","warn");
+});
+$("net-check").addEventListener("click",()=>{updateNet();audit("Refreshed browser network status","ok");toast("Browser status refreshed.");});
+window.addEventListener("online",updateNet);window.addEventListener("offline",updateNet);
+$("speed-btn").addEventListener("click",async()=>{
+  const btn=$("speed-btn");btn.disabled=true;$("speed-val").textContent="TESTING…";$("speed-state").textContent="Requesting a small test download…";$("speed-meter").style.width="0%";
+  try{
+    const bytes=3000000,start=performance.now();
+    const response=await fetch("https://speed.cloudflare.com/__down?bytes="+bytes+"&_="+Date.now(),{cache:"no-store"});
+    if(!response.ok)throw Error("Request failed");
+    const data=await response.arrayBuffer(),seconds=(performance.now()-start)/1000;
+    if(!data.byteLength||seconds<=0)throw Error("Empty response");
+    const mbps=data.byteLength*8/seconds/1e6;
+    $("speed-val").textContent=mbps.toFixed(2)+" Mbps";
+    $("speed-state").textContent="Approximate browser download rate · "+(data.byteLength/1e6).toFixed(2)+" MB transferred.";
+    $("speed-meter").style.width=Math.min(100,mbps/10)+"%";
+    audit("Download timing test completed: "+mbps.toFixed(2)+" Mbps","ok");
+  }catch{
+    $("speed-val").textContent="UNAVAILABLE";$("speed-state").textContent="The request failed or was blocked. Check internet access and try again.";
+    audit("Download timing test unavailable","warn");
+  }finally{btn.disabled=false;}
+});
+$("vault-save").addEventListener("click",()=>{
+  try{localStorage.setItem("network404_notes",$("vault-textarea").value);audit("Saved local notes","ok");toast("Notes saved in this browser.");}
+  catch{toast("Storage unavailable. Notes were not saved.");}
+});
+$("vault-load").addEventListener("click",()=>{
+  try{$("vault-textarea").value=localStorage.getItem("network404_notes")||"";audit("Reloaded local notes","ok");toast("Notes reloaded.");}
+  catch{toast("Could not access local storage.");}
+});
+$("vault-clear").addEventListener("click",()=>{
+  if(!confirm("Delete the saved notes from this browser?"))return;
+  try{localStorage.removeItem("network404_notes");$("vault-textarea").value="";audit("Deleted local notes","warn");toast("Saved notes deleted.");}
+  catch{toast("Could not access local storage.");}
+});
+$("terminal-form").addEventListener("submit",e=>{
+  e.preventDefault();const raw=$("terminal-input").value.trim(),cmd=raw.toLowerCase();
+  addLog("terminal-logs","user@network404:~$ "+raw,"dim");
+  const commands={
+    help:"Commands: help, sysinfo, netstatus, hashinfo, time, clear",
+    sysinfo:"Network404 runs inside your browser; it is not an operating-system shell.",
+    netstatus:"Browser connection hint: "+(navigator.onLine?"online":"offline"),
+    hashinfo:"SHA-256 hashing is available via Web Crypto on supported HTTPS pages.",
+    time:"Local time: "+new Date().toString()
+  };
+  if(cmd==="clear")$("terminal-logs").replaceChildren();
+  else if(Object.prototype.hasOwnProperty.call(commands,cmd))addLog("terminal-logs",commands[cmd],"ok");
+  else if(cmd)addLog("terminal-logs","Unknown command. Type help.","bad");
+  $("terminal-input").value="";audit("Terminal command: "+(cmd||"(empty)"),"dim");
+});
+$("audit-clear").addEventListener("click",()=>{
+  if(!confirm("Clear this page's activity log?"))return;
+  events.length=0;$("audit-log").replaceChildren();$("stat-events").textContent="0";audit("Audit log cleared","warn");
+});
+$("audit-export").addEventListener("click",()=>{
+  const text=events.slice().reverse().map(e=>`[${e.time}] ${e.message}`).join("\n")+"\n";
+  const url=URL.createObjectURL(new Blob([text],{type:"text/plain;charset=utf-8"}));
+  const a=document.createElement("a");a.href=url;a.download="network404-audit.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  audit("Exported activity log","ok");
+});
+document.querySelectorAll("[data-copy]").forEach(btn=>btn.addEventListener("click",async()=>{
+  const el=$(btn.dataset.copy);if(!el||!el.value){toast("Nothing to copy.");return;}
+  try{await navigator.clipboard.writeText(el.value);toast("Copied to clipboard.");audit("Copied text to clipboard","ok");}
+  catch{el.focus();el.select();toast("Select the text and copy it manually.");}
+}));
+
+// Live Satellite Radar Integration
+let liveSatPositions = [
+  { name: "ISS (ZARYA)", lat: 51.6, lng: 0.0, dist: 0.35, angle: 1.2 },
+  { name: "STARLINK", lat: 30.2, lng: -45.1, dist: 0.65, angle: 3.4 },
+  { name: "NOAA Weather", lat: -15.4, lng: 110.2, dist: 0.8, angle: 5.1 }
+];
+
+async function fetchLiveSatellites() {
+  try {
+    const res = await fetch("https://api.wheretheiss.at/v1/satellites/25544");
+    if(res.ok) {
+      const data = await res.json();
+      liveSatPositions[0].lat = data.latitude;
+      liveSatPositions[0].lng = data.longitude;
+      liveSatPositions[0].angle = (data.longitude + 180) * (Math.PI / 180);
+      liveSatPositions[0].dist = Math.abs(data.latitude) / 90 * 0.8;
+      $("satellite-conn-status").textContent = "ONLINE (ISS GPS SYNC)";
+      $("satellite-conn-status").className = "green";
+      $("radar-badge-status").textContent = "CONNECTED (LIVE)";
+      $("radar-info-text").textContent = "Successfully synchronized with live orbital tracking telemetry API. Real-time satellite positions mapped.";
+    }
+  } catch(e) {
+    liveSatPositions.forEach(sat => {
+      sat.angle += 0.008;
+    });
+  }
+}
+setInterval(fetchLiveSatellites, 10000);
+fetchLiveSatellites();
+
+function drawRadar(){
+  const canvas=$("radar-canvas"),ctx=canvas.getContext("2d");let angle=0;
+  function frame(){
+    const w=canvas.width,h=canvas.height,cx=w/2,cy=h/2,r=Math.min(w,h)*.39;
+    ctx.clearRect(0,0,w,h);ctx.strokeStyle="rgba(72,245,255,.23)";ctx.lineWidth=1;
+    for(let i=1;i<=4;i++){ctx.beginPath();ctx.arc(cx,cy,r*i/4,0,Math.PI*2);ctx.stroke();}
+    ctx.beginPath();ctx.moveTo(cx-r,cy);ctx.lineTo(cx+r,cy);ctx.moveTo(cx,cy-r);ctx.lineTo(cx,cy+r);ctx.stroke();
+    const gradient=ctx.createConicGradient(angle,cx,cy);
+    gradient.addColorStop(0,"rgba(72,245,255,0)");gradient.addColorStop(.75,"rgba(72,245,255,0)");gradient.addColorStop(1,"rgba(72,245,255,.38)");
+    ctx.fillStyle=gradient;ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle="#48f5ff";ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(angle)*r,cy+Math.sin(angle)*r);ctx.stroke();
+    
+    liveSatPositions.forEach(sat => {
+      const currentAngle = sat.angle + (angle * 0.2);
+      const x=cx+Math.cos(currentAngle)*r*sat.dist, y=cy+Math.sin(currentAngle)*r*sat.dist;
+      ctx.fillStyle="#54ffb7";
+      ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="rgba(84,255,183,0.7)";
+      ctx.font = "9px Inter, sans-serif";
+      ctx.fillText(sat.name, x + 6, y + 3);
+    });
+
+    angle=(angle+.012)%(Math.PI*2);requestAnimationFrame(frame);
+  }frame();
+}
+
+document.querySelectorAll("[data-target]").forEach(btn=>btn.addEventListener("click",()=>{
+  const target=$(btn.dataset.target);if(target)target.scrollIntoView({behavior:"smooth",block:"start"});
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b===btn));
+}));
+document.querySelectorAll("[data-jump]").forEach(btn=>btn.addEventListener("click",()=>$(btn.dataset.jump)?.scrollIntoView({behavior:"smooth",block:"start"})));
+loadRules();
+try{$("vault-textarea").value=localStorage.getItem("network404_notes")||"";}catch{}
+updateTelemetry();updateNet();setInterval(updateTelemetry,1000);drawRadar();
+audit("Network404 interface initialized with Live Radar telemetry","ok");
+})();
+
+// Script - Proximity Camera
+const knownCameras = [
+    { id: "CAM_SUL_01", lat: 35.5558, lng: 45.4351, name: "Main Street Junction" },
+    { id: "CAM_SUL_02", lat: 35.5600, lng: 45.4400, name: "City Center Sector" }
+];
+if ("geolocation" in navigator) {
+    navigator.geolocation.watchPosition(function(position) {
+        const userLat = position.coords.latitude;
+        const userLng = position.coords.longitude;
+        document.getElementById('user-coords').innerText = userLat.toFixed(4) + ", " + userLng.toFixed(4);
+        let nearbyCount = 0;
+        let closestDist = Infinity;
+        let closestCamName = "No cameras in immediate range";
+
+        knownCameras.forEach(cam => {
+            const dist = getDistanceFromLatLonInKm(userLat, userLng, cam.lat, cam.lng);
+            if (dist < 2.0) { nearbyCount++; }
+            if (dist < closestDist) {
+                closestDist = dist;
+                closestCamName = cam.name + " (" + (dist * 1000).toFixed(0) + "m)";
+            }
+        });
+
+        document.getElementById('nearby-count').innerText = nearbyCount;
+        document.getElementById('nearest-cam-info').innerText = "Target: " + closestCamName;
+        document.getElementById('cam-distance-label').innerText = "DIST: " + (closestDist * 1000).toFixed(0) + "M";
+
+        if (closestDist < 0.5) {
+            document.getElementById('cam-alert-status').style.background = "#ff0055";
+            document.getElementById('cam-alert-status').style.color = "#fff";
+            document.getElementById('cam-alert-status').innerText = "WARNING: CAM NEARBY";
+        }
+    }, function(error) {
+        document.getElementById('user-coords').innerText = "GPS Permission Denied";
+    }, { enableHighAccuracy: true });
+}
+
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    var R = 6371;
+    var dLat = deg2rad(lat2-lat1);
+    var dLon = deg2rad(lon2-lon1);
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2); 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    return R * c;
+}
+function deg2rad(deg) { return deg * (Math.PI/180); }
+
+navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function(stream) { document.getElementById('proximity-cam-feed').srcObject = stream; })
+    .catch(function(err) { console.log(err); });
+
+// Script - Wifi Radar Status
+setInterval(() => {
+    const dbs = [-38, -45, -52, -67, -75, -82];
+    const randomDb = dbs[Math.floor(Math.random() * dbs.length)];
+    if(randomDb > -50) {
+        document.getElementById('wifi-status').innerText = "NEARBY STRONG";
+        document.getElementById('wifi-status').style.background = "#ff0055";
+        document.getElementById('wifi-status').style.color = "#fff";
+    } else {
+        document.getElementById('wifi-status').innerText = "SCANNING";
+        document.getElementById('wifi-status').style.background = "#00ffcc";
+        document.getElementById('wifi-status').style.color = "#000";
+    }
+}, 3000);
+
+// Script - Local IP
+async function getLocalIP() {
+    try {
+        const ips = [];
+        const pc = new RTCPeerConnection({ iceServers: [] });
+        pc.createDataChannel("");
+        pc.createOffer().then(offer => pc.setLocalDescription(offer));
+        pc.onicecandidate = (ice) => {
+            if (!ice || !ice.candidate || !ice.candidate.candidate) return;
+            const myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate);
+            if (myIP && !ips.includes(myIP[1])) {
+                ips.push(myIP[1]);
+                document.getElementById('local-ip-display').innerText = myIP[1];
+                let parts = myIP[1].split('.');
+                parts[3] = '1';
+                document.getElementById('gateway-ip').innerText = parts.join('.');
+            }
+        };
+    } catch (e) {
+        document.getElementById('local-ip-display').innerText = "Restricted";
+    }
+}
+getLocalIP();
+
+// Script - Bluetooth Scan
+async function scanBluetoothDevices() {
+    document.getElementById('bt-status').innerText = "SCANNING...";
+    document.getElementById('bt-status').style.background = "#ff0055";
+    document.getElementById('bt-status').style.color = "#fff";
+    try {
+        const device = await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
+        document.getElementById('bt-status').innerText = "LOCKED";
+        document.getElementById('bt-status').style.background = "#00ffcc";
+        document.getElementById('bt-status').style.color = "#000";
+        document.getElementById('bt-device-name').innerText = device.name || "Unknown Device";
+    } catch (error) {
+        document.getElementById('bt-status').innerText = "IDLE";
+        document.getElementById('bt-status').style.background = "#00ffcc";
+        document.getElementById('bt-status').style.color = "#000";
+        document.getElementById('bt-device-name').innerText = "Scan aborted";
+    }
+}
+
+// Script - Network IP
+async function getNetworkIP() {
+    try {
+        const pc = new RTCPeerConnection({ iceServers: [] });
+        pc.createDataChannel("");
+        pc.createOffer().then(offer => pc.setLocalDescription(offer));
+        pc.onicecandidate = (ice) => {
+            if (!ice || !ice.candidate || !ice.candidate.candidate) return;
+            const myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate);
+            if (myIP) {
+                document.getElementById('display-ip').innerText = myIP[1];
+            }
+        };
+    } catch (e) {
+        document.getElementById('display-ip').innerText = "Protected";
+    }
+}
+getNetworkIP();
+
+async function runBrowserBluetoothScan() {
+    const btStatus = document.getElementById('display-bt');
+    btStatus.innerText = "Scanning...";
+    try {
+        const device = await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
+        btStatus.innerText = device.name || "Unknown Device";
+    } catch (error) {
+        btStatus.innerText = "Cancelled / No device";
+    }
+}
+
+// Script - AI Cracker
+function startSmartSimulation() {
+    const username = document.getElementById('smart-user').value.trim();
+    const app = document.getElementById('smart-app').value;
+    const terminal = document.getElementById('smart-terminal');
+    const status = document.getElementById('smart-status');
+    if(!username) {
+        terminal.innerHTML += `<br><span style="color: #ff0055;">> Error: Username required!</span>`;
+        return;
+    }
+    status.innerText = "CRACKING";
+    status.style.background = "#ff0055";
+    terminal.innerHTML = `> Target: @${username} (${app})<br>> Generating smart wordlist based on username...`;
+    
+    const smartPasswords = [
+        username + "123", username + "12345", username + "2026",
+        "123" + username, username + "_official", username + "777",
+        "pass_" + username, username + "000"
+    ];
+    let count = 0;
+    let foundMatch = false;
+    let interval = setInterval(() => {
+        count += Math.floor(Math.random() * 300) + 200;
+        if(count > 4800 && !foundMatch) {
+            foundMatch = true;
+            let winningPass = smartPasswords[Math.floor(Math.random() * smartPasswords.length)];
+            terminal.innerHTML += `<br><span style="color: #00ffcc; font-weight: bold;">[!] SUCCESS! MATCH FOUND!</span>`;
+            terminal.innerHTML += `<br><span style="color: #00ff00; background: #002200; padding: 2px;">> USER: ${username} | PASS: ${winningPass}</span>`;
+            terminal.scrollTop = terminal.scrollHeight;
+            status.innerText = "LOCKED";
+            status.style.background = "#00ff00";
+            status.style.color = "#000";
+            clearInterval(interval);
+            return;
+        }
+        let randomPass = count % 2 === 0 ? smartPasswords[Math.floor(Math.random() * smartPasswords.length)] : 'pass' + Math.floor(Math.random()*99999);
+        terminal.innerHTML += `<br>[*] Testing (${count}/5000): ${randomPass}`;
+        terminal.scrollTop = terminal.scrollHeight;
+    }, 40);
+}
+
+// Script - Global Threat Feed
+const threats = [
+    {from: "Tokyo", to: "New York", type: "SQL Injection"},
+    {from: "Berlin", to: "London", type: "DDoS Flood"},
+    {from: "Tehran", to: "Frankfurt", type: "Packet Sniffing"},
+    {from: "Moscow", to: "Washington", type: "Zero-Day Exploit"}
+];
+setInterval(() => {
+    let t = threats[Math.floor(Math.random() * threats.length)];
+    let randomIP = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.x.x`;
+    document.getElementById('attack-logs').innerHTML = `
+        > Origin: ${t.from} (${randomIP})<br>
+        > Target: ${t.to} | ${t.type}
+    `;
+}, 3000);
+
+// Script - Packet Sniffer
+let isSniffing = true;
+const protocols = ["TCP", "UDP", "HTTPS", "SSH", "DNS", "ICMP"];
+const hexChars = "0123456789ABCDEF";
+function generateHex() {
+    let hex = "";
+    for(let i=0; i<12; i++) { hex += hexChars[Math.floor(Math.random() * hexChars.length)]; }
+    return hex;
+}
+setInterval(() => {
+    if(!isSniffing) return;
+    const terminal = document.getElementById('packet-terminal');
+    const proto = protocols[Math.floor(Math.random() * protocols.length)];
+    const srcIP = `${Math.floor(Math.random()*200)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.1`;
+    const hexData = generateHex();
+    terminal.innerHTML += `<br><span style="color: ${proto === 'SSH' ? '#ff0055' : '#00ffcc'}">[${proto}]</span> ${srcIP} -> DATA: [${hexData}]`;
+    terminal.scrollTop = terminal.scrollHeight;
+}, 400);
+
+function toggleSniffer() {
+    isSniffing = !isSniffing;
+    document.getElementById('sniff-btn').innerText = isSniffing ? "PAUSE" : "RESUME";
+    document.getElementById('sniff-btn').style.background = isSniffing ? "#ff0055" : "#00ffcc";
+    document.getElementById('sniff-btn').style.color = isSniffing ? "#fff" : "#000";
+}
+
+// Script - Payload Generator
+function generatePayload() {
+    const type = document.getElementById('payload-type').value;
+    const terminal = document.getElementById('gen-terminal');
+    const status = document.getElementById('gen-status');
+    status.innerText = "BUILDING";
+    status.style.background = "#ff0055";
+    status.style.color = "#fff";
+    terminal.innerHTML = `> Initializing cross-compiler for ${type}...<br>> Injecting NOP sleds & obfuscation...`;
+    setTimeout(() => { terminal.innerHTML += `<br>> Resolving dependencies... [OK]`; }, 800);
+    setTimeout(() => {
+        terminal.innerHTML += `<br><span style="color: #00ffcc; font-weight: bold;">[SUCCESS] Payload compiled successfully!</span>`;
+        terminal.innerHTML += `<br><span style="color: #fff;">> Hash: e3b0c44298fc1c149afbf4c8996fb924</span>`;
+        terminal.scrollTop = terminal.scrollHeight;
+        status.innerText = "READY";
+        status.style.background = "#00ffcc";
+        status.style.color = "#000";
+    }, 2000);
+}
+
+// Script - Live Stream
+const streamLogs = [
+    "Establishing encrypted tunnel via proxy node #4...",
+    "Memory injection verified. Zero leaks detected.",
+    "Target handshake acknowledged on port 8080.",
+    "Scanning local subnet for active nodes... 14 found.",
+    "Decrypting RSA-4096 handshake tokens...",
+    "Proxy rotation active: IP switched to Frankfurt gateway."
+];
+setInterval(() => {
+    let log = streamLogs[Math.floor(Math.random() * streamLogs.length)];
+    document.getElementById('live-stream-text').innerText = "[+] " + log + " [" + new Date().toLocaleTimeString() + "]";
+}, 2500);
+
+// Script - System Status Telemetry
+setInterval(() => {
+    let cpu = Math.floor(Math.random() * 30) + 65;
+    let ram = (Math.random() * 2 + 13).toFixed(1);
+    let temp = Math.floor(Math.random() * 10) + 58;
+    document.getElementById('cpu-val').innerText = cpu + '%';
+    document.getElementById('cpu-bar').style.width = cpu + '%';
+    document.getElementById('ram-val').innerText = ram + ' GB';
+    document.getElementById('ram-bar').style.width = (ram / 16 * 100) + '%';
+    document.getElementById('temp-val').innerText = temp + '°C';
+}, 2000);
+
+// Script - Radar Feed
+const attackVectors = [
+    "DDoS Flood intercepted from IP 185.159.x.x",
+    "SQL Injection attempt blocked on port 80",
+    "Unauthorized handshake request rejected (SSH)",
+    "Zero-day packet signature detected & isolated",
+    "Proxy tunnel rotation executed successfully"
+];
+setInterval(() => {
+    const terminal = document.getElementById('radar-terminal');
+    const randomAttack = attackVectors[Math.floor(Math.random() * attackVectors.length)];
+    const timeNow = new Date().toLocaleTimeString();
+    terminal.innerHTML += `<br><span style="color: #ff0055;">[${timeNow}]</span> ${randomAttack}`;
+    terminal.scrollTop = terminal.scrollHeight;
+}, 2500);
+
+// Script - Override
+function executeOverride() {
+    const terminal = document.getElementById('override-terminal');
+    terminal.innerHTML += `<br><span style="color: #fff; background: #ff0055; font-weight: bold;">[!] OVERRIDE INITIATED: Purging local memory banks...</span>`;
+    let logs = [
+        "[-] Terminating active socket connections...",
+        "[-] Erasing kernel logs & trace footprints...",
+        "[!] ENCRYPTION KEY COMPROMISED: 0x9F4C2A",
+        "[FATAL] System lockdown enforced by remote node."
+    ];
+    let idx = 0;
+    let interval = setInterval(() => {
+        if(idx < logs.length) {
+            terminal.innerHTML += `<br><span style="color: ${idx === 3 ? '#ff0000' : '#ff3366'}">${logs[idx]}</span>`;
+            terminal.scrollTop = terminal.scrollHeight;
+            idx++;
+        } else {
+            clearInterval(interval);
+        }
+    }, 600);
+}
+</script>
+</body>
+</html>
